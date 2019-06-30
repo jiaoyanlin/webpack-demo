@@ -14,6 +14,12 @@ module.exports = {
                 loader: 'vue-loader'
             },
             {
+                test: /\.js$/,
+                use: ['babel-loader'],
+                exclude: /node_modules/, // 排除不要加载的文件夹
+                include: path.resolve(__dirname, '../src') // 指定需要加载的文件夹
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader',

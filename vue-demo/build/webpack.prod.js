@@ -7,13 +7,12 @@ const common = require('./webpack.base.js');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = merge(common, {
-    module: {},
-    plugins: [],
     mode: 'production',
     output: {
         filename: 'js/[name].[contenthash].js', //contenthash 若文件内容无变化，则contenthash 名称不变
         path: path.resolve(__dirname, '../dist')
     },
+    module: {},
     plugins: [
         new CleanWebpackPlugin(),
     ]

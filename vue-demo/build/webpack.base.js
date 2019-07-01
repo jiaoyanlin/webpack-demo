@@ -6,7 +6,14 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // html插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-    entry: './src/index.js', //入口
+    entry: './src/index.js',
+    resolve: {
+        alias: { // 别名
+            '@src': path.resolve(__dirname, '../src'),
+            '@scss': path.resolve(__dirname, '../src/static/scss'),
+            '@images': path.resolve(__dirname, '../src/static/images'),
+        }
+    },
     module: {
         rules: [
             {
@@ -55,12 +62,13 @@ module.exports = {
         ]
     },
     plugins: [
-        // 解决vender后面的hash每次都改变
+        // 使用文件路径的 hash 作为 moduleId，解决vender后面的hash每次都改变
         new webpack.HashedModuleIdsPlugin(),
         // 请确保引入这个插件来施展魔法
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html'),
+            favicon: path.resolve(__dirname, '../favicon.png'),
         }),
     ],// 插件
 };

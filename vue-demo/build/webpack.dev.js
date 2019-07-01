@@ -3,6 +3,7 @@ const common = require('./webpack.base.js');
 const path = require('path');
 
 module.exports = merge(common, {
+    mode: 'development',
     devtool: 'inline-source-map',
     devServer: { // 开发服务器
         port: '3000',
@@ -16,5 +17,4 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, '../dist')
     },
     module: {},
-    mode: 'development',
 });

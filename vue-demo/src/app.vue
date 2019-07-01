@@ -7,6 +7,32 @@
         <div>
             <div class="btn" @click="addCount">add count</div>
         </div>
+        <div class="wrap">
+            <div>
+                <div>gif</div>
+                <img src="./static/images/smart.gif" alt="">
+            </div>
+            <div>
+                <div>1</div>
+                <img src="./static/images/1.jpg" alt="">
+            </div>
+            <div>
+                <div>2</div>
+                <img src="./static/images/2.jpg" alt="">
+            </div>
+            <div>
+                <div>3</div>
+                <div class="img-bg-1"></div>
+            </div>
+            <div>
+                <div>4</div>
+                <div class="img-bg-2"></div>
+            </div>
+            <div>
+                <div>5</div>
+                <div class="global-test"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -56,6 +82,28 @@ $red: #a00;
     border: 1px solid #ddd;
     border-radius: 4px;
     cursor: pointer;
+}
+img {
+    width: 100px;
+}
+@mixin img-bg {
+    width: 100%;
+    height: 120px;
+    background-size: 100px;
+}
+.img-bg-1 {
+    background: url(./static/images/1.jpg) no-repeat center top;
+    @include img-bg();
+}
+.img-bg-2 {
+    background: url(./static/images/2.jpg) no-repeat center top;
+    @include img-bg();
+}
+.wrap {
+    display: flex;
+    &>div {
+        flex: 1;
+    }
 }
 </style>
 

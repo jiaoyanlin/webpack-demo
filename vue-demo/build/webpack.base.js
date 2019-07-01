@@ -37,12 +37,15 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                // 使用url-loader, 它接受一个limit参数，单位byte；
+                // 当文件小于limit：将文件转为Data URI格式内联到引用的地方
+                // 当文件大于limit：将调用 file-loader, 把文件复制到输出目录，并将引用的文件路径改写成输出后的路径
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: 'url-loader',
                         options: {
-                            limit: 5000,
+                            limit: 20 * 1024,
                             // 分离图片至imgs文件夹
                             name: "imgs/[name].[ext]",
                         }

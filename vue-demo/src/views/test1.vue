@@ -48,7 +48,7 @@ export default {
     methods: {
         addCount() {
             if (this.loading) return ;
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 this.loading = true;
                 setTimeout(() => {
                     const {count} = this;

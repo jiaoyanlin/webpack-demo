@@ -11,9 +11,11 @@ module.exports = {
     resolve: {
         alias: { // 别名
             '@src': path.resolve(__dirname, '../src'),
+            '@views': path.resolve(__dirname, '../src/views'),
             '@scss': path.resolve(__dirname, '../src/static/scss'),
             '@images': path.resolve(__dirname, '../src/static/images'),
-        }
+        },
+        extensions: ['.js', '.json', '.vue'], // 配置扩展名
     },
     module: {
         rules: [

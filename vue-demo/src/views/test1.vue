@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
+    <div>
         <div>
-            hello world, count : 
+            test1, count : 
             <span class="red">{{loading ? 'loading...' : count}}</span>
         </div>
         <div>
@@ -10,15 +10,15 @@
         <div class="wrap">
             <div>
                 <div>gif</div>
-                <img src="./static/images/smart.gif" alt="">
+                <img src="@images/smart.gif" alt="">
             </div>
             <div>
                 <div>1</div>
-                <img src="./static/images/1.jpg" alt="">
+                <img src="@images/1.jpg" alt="">
             </div>
             <div>
                 <div>2</div>
-                <img src="./static/images/2.jpg" alt="">
+                <img src="@images/2.jpg" alt="">
             </div>
             <div>
                 <div>3</div>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-    name: "app",
+    name: 'test',
     data() {
         return {
             loading: false,
@@ -64,15 +64,6 @@ export default {
 
 <style lang="scss" scoped>
 $red: #a00;
-#app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    /* color: #2c3e50; */
-    margin-top: 60px;
-    transform: rotate(0deg);
-}
 .red {
     color: $red;
 }
@@ -92,11 +83,11 @@ img {
     background-size: 100px;
 }
 .img-bg-1 {
-    background: url(./static/images/1.jpg) no-repeat center top;
+    background: url(~@images/1.jpg) no-repeat center top;
     @include img-bg();
 }
 .img-bg-2 {
-    background: url(./static/images/2.jpg) no-repeat center top;
+    background: url(~@images/2.jpg) no-repeat center top;
     @include img-bg();
 }
 .wrap {
@@ -106,4 +97,3 @@ img {
     }
 }
 </style>
-

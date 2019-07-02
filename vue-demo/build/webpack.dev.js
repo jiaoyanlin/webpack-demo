@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.base.js');
 const path = require('path');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css
 
 module.exports = merge(common, {
     mode: 'development',
@@ -18,8 +19,24 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, '../dist')
     },
     module: {
+        rules: [
+            {
+                test: /\.(scss|css)$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ],
+            },
+        ]
     },
     plugins: [
         new webpack.NamedModulesPlugin(), // 将文件路径作为 id
+        // 增加css抽取
+        // new MiniCssExtractPlugin({
+        //     filename: 'css/[name].css',
+        //     chunkFilename: '[name].css'
+        // }),
     ]
 });

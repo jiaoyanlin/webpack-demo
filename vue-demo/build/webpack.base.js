@@ -1,14 +1,13 @@
 // 存放 dev 和 prod 通用配置
 // const webpack = require('webpack');
 const path = require("path");
-// vue-loader 插件
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-// html插件
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue-loader 插件
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // html插件
+
 module.exports = {
-    entry: { 
-        index: path.resolve(__dirname, '../src/index.js'), 
-    }, 
+    entry: {
+        index: path.resolve(__dirname, '../src/index.js'),
+    },
     resolve: {
         alias: { // 别名
             '@src': path.resolve(__dirname, '../src'),
@@ -27,23 +26,6 @@ module.exports = {
                 use: ['babel-loader'],
                 exclude: /node_modules/, // 排除不要加载的文件夹
                 include: path.resolve(__dirname, '../src') // 指定需要加载的文件夹
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'postcss-loader',
-                ],
-            },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader',
-                ],
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/,
@@ -70,5 +52,5 @@ module.exports = {
             template: path.resolve(__dirname, '../src/index.html'),
             favicon: path.resolve(__dirname, '../favicon.png'),
         }),
-    ],// 插件
+    ],
 };

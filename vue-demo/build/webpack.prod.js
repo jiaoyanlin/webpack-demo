@@ -4,6 +4,10 @@ const merge = require('webpack-merge'); // 合并配置文件
 const common = require('./webpack.base.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // css压缩与优化
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const seen = new Set();
 const nameLength = 4;
 
@@ -44,8 +48,31 @@ module.exports = merge(common, {
         * 相当于在plugins中使用new webpack.HashedModuleIdsPlugin()
         */
         moduleIds: 'hashed',
+        minimizer: [
+            new UglifyJsPlugin({ // 压缩js
+                cache:true,
+                parallel:true,
+                sourceMap:true
+            }),
+            new OptimizeCSSAssetsPlugin(), // 压缩css，导致webpack4自带的js压缩无效，需添加UglifyJsPlugin
+        ],
     },
-    module: {},
+    module: {
+        rules: [
+            {
+                test: /\.(scss|css)$/,
+                include: [
+                    path.resolve(__dirname, '../src')
+                ],
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ],
+            },
+        ]
+    },
     plugins: [
         new CleanWebpackPlugin(),
         // 注意一定要在HtmlWebpackPlugin之后引用, inline 的name 和runtimeChunk 的 name保持一致;将runtime~index.xxx.js内联到html中
@@ -68,6 +95,11 @@ module.exports = merge(common, {
             } else {
                 return modules[0].id;
             }
-        })
+        }),
+        // 增加css抽取
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash].css',
+            chunkFilename: 'css/[id].[contenthash].css'
+        }),
     ]
 });

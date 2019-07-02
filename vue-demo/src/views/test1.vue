@@ -67,13 +67,6 @@ $red: #a00;
 .red {
     color: $red;
 }
-.btn {
-    display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
 img {
     width: 100px;
 }

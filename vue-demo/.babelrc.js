@@ -1,6 +1,6 @@
 module.exports = {
     plugins: [
-        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-dynamic-import", // 支持路由懒加载：()=>import('...')
         [
             "@babel/plugin-transform-runtime",
             {

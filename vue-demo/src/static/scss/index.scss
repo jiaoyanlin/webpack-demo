@@ -8,3 +8,10 @@ body {
     background: url(../images/2.jpg) no-repeat center top;
     background-size: 100px;
 }
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}

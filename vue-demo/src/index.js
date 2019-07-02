@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import router from '@src/router';
 import App from '@views/app.vue';
-// import "core-js/modules/es6.promise";
-// import "core-js/modules/es6.array.iterator";
+import store from '@src/store/index';
 import '@scss/index.scss';
 new Vue({
     el: '#app',
     router,
+    store,
     render: h => h(App),
 });

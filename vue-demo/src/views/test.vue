@@ -1,20 +1,20 @@
 <template>
     <div>
         首页：test
-        <div>{{msg}}</div>
+        <div>{{gettersMsg}}</div>
+        <div class="btn" @click="changeMsg">点击改变数据</div>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'test',
     data() {
-        return {
-            msg: '首页信息'
-        }
+        return {};
     },
-    methods: {
-    },
+    computed: { ...mapGetters(['gettersMsg']) },
+    methods: { ...mapActions(['changeMsg']) }
 };
 </script>
 

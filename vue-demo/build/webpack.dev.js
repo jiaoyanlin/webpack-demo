@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.base.js');
 const path = require('path');
@@ -16,5 +17,9 @@ module.exports = merge(common, {
         filename: 'js/[name].[hash].js', // 每次保存 hash 都变化
         path: path.resolve(__dirname, '../dist')
     },
-    module: {},
+    module: {
+    },
+    plugins: [
+        new webpack.NamedModulesPlugin(), // 将文件路径作为 id
+    ]
 });

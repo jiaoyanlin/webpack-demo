@@ -1,12 +1,14 @@
 // 存放 dev 和 prod 通用配置
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const path = require("path");
 // vue-loader 插件
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // html插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-    entry: './src/index.js',
+    entry: { 
+        index: path.resolve(__dirname, '../src/index.js'), 
+    }, 
     resolve: {
         alias: { // 别名
             '@src': path.resolve(__dirname, '../src'),
@@ -62,8 +64,6 @@ module.exports = {
         ]
     },
     plugins: [
-        // 使用文件路径的 hash 作为 moduleId，解决vender后面的hash每次都改变
-        new webpack.HashedModuleIdsPlugin(),
         // 请确保引入这个插件来施展魔法
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({

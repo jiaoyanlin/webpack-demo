@@ -27,10 +27,10 @@ module.exports = merge(common, {
                     priority: 10,
                     chunks: 'initial' // 只打包初始时依赖的第三方
                 },
-                elementUI: {
-                    name: 'chunk-elementUI', // 单独将 elementUI 拆包
+                antUI: {
+                    name: 'chunk-ant', // 单独将 ant 拆包
                     priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-                    test: /[\\/]node_modules[\\/]element-ui[\\/]/
+                    test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/
                 },
                 commons: {
                     name: 'chunk-commons',
@@ -71,6 +71,25 @@ module.exports = merge(common, {
                     'sass-loader'
                 ],
             },
+            {
+                test: /\.less$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    {
+                        loader: 'less-loader', // compiles Less to CSS
+                        options: { // ant自定义主题
+                            modifyVars: {
+                                'primary-color': '#63937d',
+                                'link-color': '#11b96c',
+                                'item-hover-bg': '#547c6a',
+                                'item-active-bg': '#466657',
+                            },
+                            javascriptEnabled: true,
+                        },
+                    }
+                ]
+            }
         ]
     },
     plugins: [

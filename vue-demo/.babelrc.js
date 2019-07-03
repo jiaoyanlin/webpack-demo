@@ -1,4 +1,14 @@
 module.exports = {
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                "corejs": 2,
+                "modules": false, // 模块使用 es modules ，不使用 commonJS 规范 
+                "useBuiltIns": 'usage', // 默认 false, 可选 entry , usage
+            }
+        ]
+    ],
     plugins: [
         "@babel/plugin-syntax-dynamic-import", // 支持路由懒加载：()=>import('...')
         [
@@ -10,15 +20,6 @@ module.exports = {
                 "useESModules": true, // 使用 es modules helpers, 减少 commonJS 语法代码
             }
         ],
-    ],
-    presets: [
-        [
-            "@babel/preset-env",
-            {
-                "corejs": 2,
-                "modules": false, // 模块使用 es modules ，不使用 commonJS 规范 
-                "useBuiltIns": 'usage', // 默认 false, 可选 entry , usage
-            }
-        ]
+        ["import", { "libraryName": "ant-design-vue", "libraryDirectory": "es", "style": true }], // ant组件按需加载
     ]
 }

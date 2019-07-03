@@ -29,6 +29,25 @@ module.exports = merge(common, {
                     'sass-loader'
                 ],
             },
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'less-loader', // compiles Less to CSS
+                        options: { // ant自定义主题
+                            modifyVars: {
+                                'primary-color': '#63937d',
+                                'link-color': '#11b96c',
+                                'item-hover-bg': '#547c6a',
+                                'item-active-bg': '#466657',
+                            },
+                            javascriptEnabled: true,
+                        },
+                    }
+                ]
+            }
         ]
     },
     plugins: [

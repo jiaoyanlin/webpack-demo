@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$red: #a00;
+@import '@scss/theme.scss';
 .red {
     color: $red;
 }

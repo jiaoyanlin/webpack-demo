@@ -29,6 +29,9 @@ module.exports = {
     plugins: ["vue"],
     //集成推荐的规则
     extends: ["eslint:recommended", "plugin:vue/essential"],
+    globals: {
+        process: false,
+    },
     //启用额外的规则或者覆盖默认的规则
     //规则级别分别：为"off"(0)关闭、"warn"(1)警告、"error"(2)错误--error触发时，程序退出
     rules: {

@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --hot --config build/webpack.dev.js",
-    "build": "webpack --config build/webpack.prod.js"
+    "dev:local": "webpack-dev-server --env.CUSTOM_ENV=local --hot --progress --config build/webpack.dev.js",
+    "dev:pre": "webpack-dev-server --env.CUSTOM_ENV=pre --hot --progress --config build/webpack.dev.js",
+    "dev": "webpack-dev-server --env.CUSTOM_ENV=pro --hot --progress --config build/webpack.dev.js",
+    "build:local": "webpack --progress --env.CUSTOM_ENV=local --config build/webpack.prod.js",
+    "build:pre": "webpack --progress --env.CUSTOM_ENV=pre --config build/webpack.prod.js",
+    "build": "webpack --progress --env.CUSTOM_ENV=pro --config build/webpack.prod.js"
   },
   "author": "jiaoyanlin",
   "license": "ISC",

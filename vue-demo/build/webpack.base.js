@@ -66,7 +66,12 @@ module.exports = (env, mode) => {
                 {
                     test: /\.(scss|css)$/,
                     use: [
-                        envConfig.isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        envConfig.isDev ? 'style-loader' : {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: '../' // 让css中能成功加载到图片
+                            }
+                        },
                         'css-loader',
                         'postcss-loader',
                         'sass-loader'
@@ -75,7 +80,12 @@ module.exports = (env, mode) => {
                 {
                     test: /\.less$/,
                     use: [
-                        envConfig.isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+                        envConfig.isDev ? 'style-loader' : {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: '../'
+                            }
+                        },
                         'css-loader',
                         {
                             loader: 'less-loader', // compiles Less to CSS
@@ -98,6 +108,11 @@ module.exports = (env, mode) => {
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, '../src/index.html'),
                 favicon: path.resolve(__dirname, '../favicon.png'),
+                /*
+                因为和 webpack 4 的兼容性问题，chunksSortMode 参数需要设置为 none
+                https://github.com/jantimon/html-webpack-plugin/issues/870
+                */
+                chunksSortMode: 'none'
             }),
             new webpack.DefinePlugin({ // 自定义全局变量
                 'process.env.CUSTOM_ISDEV': JSON.stringify(envConfig.isDev),

@@ -24,24 +24,30 @@ module.exports = env => {
             splitChunks: {
                 chunks: 'all',
                 cacheGroups: {
-                    libs: {
+                    libs: { // 基础类库:它是构成我们项目必不可少的一些基础类库，比如 vue+vue-router+vuex+axios 这种标准的全家桶，它们的升级频率都不高，但每个页面都需要它们
                         name: 'chunk-libs',
                         test: /[\\/]node_modules[\\/]/,
                         priority: 10,
                         chunks: 'initial' // 只打包初始时依赖的第三方
                     },
-                    antUI: {
+                    antUI: { // UI 组件库
                         name: 'chunk-ant', // 单独将 ant 拆包
                         priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
                         test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/
                     },
-                    commons: {
+                    commons: { // 自定义组件/函数
                         name: 'chunk-commons',
                         test: path.resolve(__dirname, '../src/components/global_components'), // 可自定义拓展你的规则，比如注册全局组件的目录
                         minChunks: 2, // 最小共用次数
                         priority: 5,
                         reuseExistingChunk: true
-                    }
+                    },
+                    // styles: { // 将多个css文件合并成单一css文件
+                    //     name: 'style',
+                    //     test: /\.(css|less)$/,
+                    //     chunks: 'all',
+                    //     enforce: true // 强制忽略minChunks等设置
+                    // }
                 }
             },
             // runtimeChunk：提取 manifest，使用script-ext-html-webpack-plugin等插件内联到index.html减少请求
@@ -89,7 +95,7 @@ module.exports = env => {
             // 增加css抽取
             new MiniCssExtractPlugin({
                 filename: 'css/[name].[contenthash].css',
-                chunkFilename: 'css/[id].[contenthash].css'
+                // chunkFilename: 'css/[id].[contenthash].css'
             }),
         ]
     });

@@ -11,8 +11,8 @@ module.exports = (env, mode) => {
     return {
         performance: { // 控制 webpack 如何通知「资源(asset)和入口起点超过指定文件限制」
             hints: 'warning',
-            maxAssetSize: 1 * 1024 * 1024, // 单文件：bytes
-            maxEntrypointSize:  3 * 1024 * 1024, // 入口所有文件：bytes
+            maxAssetSize: (envConfig.isDev ? 20 : 1) * 1024 * 1024, // 单文件：bytes
+            maxEntrypointSize:  (envConfig.isDev ? 20 : 3) * 1024 * 1024, // 入口所有文件：bytes
         },
         stats: {
             children: false, // 清理控制台不必要的打印信息
@@ -22,13 +22,14 @@ module.exports = (env, mode) => {
         },
         resolve: {
             alias: { // 别名
+                'vue$': envConfig.isDev ? 'vue' : path.resolve(__dirname, '../node_modules/vue/dist/vue.esm.js'),
                 '@src': path.resolve(__dirname, '../src'),
                 '@views': path.resolve(__dirname, '../src/views'),
                 '@scss': path.resolve(__dirname, '../src/static/scss'),
                 '@images': path.resolve(__dirname, '../src/static/images'),
             },
-            extensions: ['.js', '.json', '.vue'], // 配置扩展名
-            modules: [path.resolve(__dirname, 'node_modules')], // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
+            extensions: ['.js', '.vue'], // 配置扩展名
+            modules: [path.resolve(__dirname, '../node_modules')], // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
         },
         module: {
             rules: [

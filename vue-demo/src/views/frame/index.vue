@@ -1,12 +1,18 @@
 <template>
     <div>
-        找不到相关页面
+        <h2>前端主流框架</h2>
+        <ul>
+            <li>react</li>
+            <li>vue</li>
+            <li>angular</li>
+            <div>...</div>
+        </ul>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'noFound',
+    name: 'frame',
     data() {
         return {
         }

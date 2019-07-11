@@ -1,0 +1,30 @@
+$primary-color: #63937d;
+$link-color: #11b96c;
+$item-hover-bg: #b5ccc2;
+$item-active-bg: #dde8e3;
+$red: #900;
+
+$com-padding: 15px;
+
+@mixin wh($w: 100%, $h: 100%) {
+    width: $w;
+    height: $h;
+}
+@mixin pos-a($t:0, $l:0) {
+    position: absolute;
+    top: $t;
+    left: $l;
+}
+@mixin pos-a-wh($t:0, $l:0, $w: 100%, $h: 100%) {
+    width: $w;
+    height: $h;
+    position: absolute;
+    top: $t;
+    left: $l;
+}
+@mixin center-x {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

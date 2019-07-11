@@ -1,6 +1,6 @@
 <template>
     <div>
-        test2
+        cssview
         <div>全局数据：{{gettersMsg}}</div>
     </div>
 </template>
@@ -8,7 +8,7 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    name: 'test2',
+    name: 'cssview',
     data() {
         return {
         }

@@ -7,6 +7,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // css压缩与优化
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const seen = new Set();
 const nameLength = 4;
@@ -97,6 +98,8 @@ module.exports = env => {
                 filename: 'css/[name].[contenthash].css',
                 // chunkFilename: 'css/[id].[contenthash].css'
             }),
+            // 分析包大小
+            ...( env.STATS ? [new BundleAnalyzerPlugin()] : [])
         ]
     });
 };

@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dll": "webpack --progress --config build/webpack.dll.js",
+    "build:stats": "webpack --progress --env.CUSTOM_ENV=pro --env.STATS --config build/webpack.prod.js --profile --json > stats.json",
     "dev:local": "webpack-dev-server --env.CUSTOM_ENV=local --hot --progress --config build/webpack.dev.js",
     "dev:pre": "webpack-dev-server --env.CUSTOM_ENV=pre --hot --progress --config build/webpack.dev.js",
     "dev": "webpack-dev-server --env.CUSTOM_ENV=pro --hot --progress --config build/webpack.dev.js",
     "build:local": "webpack --progress --env.CUSTOM_ENV=local --config build/webpack.prod.js",
     "build:pre": "webpack --progress --env.CUSTOM_ENV=pre --config build/webpack.prod.js",
-    "build:stats": "webpack --progress --env.CUSTOM_ENV=pro --config build/webpack.prod.js --profile --json > stats.json",
     "build": "webpack --progress --env.CUSTOM_ENV=pro --config build/webpack.prod.js"
   },
   "author": "jiaoyanlin",
@@ -21,6 +22,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
+    "add-asset-html-webpack-plugin": "^3.1.3",
     "autoprefixer": "^9.6.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",

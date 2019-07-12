@@ -4,6 +4,7 @@ const path = require("path");
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue-loader 插件
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 生产环境抽离css
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const getConfig = require('./_config');
 
 module.exports = (env, mode) => {
@@ -12,7 +13,7 @@ module.exports = (env, mode) => {
         performance: { // 控制 webpack 如何通知「资源(asset)和入口起点超过指定文件限制」
             hints: 'warning',
             maxAssetSize: (envConfig.isDev ? 20 : 1) * 1024 * 1024, // 单文件：bytes
-            maxEntrypointSize:  (envConfig.isDev ? 20 : 3) * 1024 * 1024, // 入口所有文件：bytes
+            maxEntrypointSize: (envConfig.isDev ? 20 : 3) * 1024 * 1024, // 入口所有文件：bytes
         },
         stats: {
             children: false, // 清理控制台不必要的打印信息
@@ -22,7 +23,6 @@ module.exports = (env, mode) => {
         },
         resolve: {
             alias: { // 别名
-                'vue$': envConfig.isDev ? 'vue' : path.resolve(__dirname, '../node_modules/vue/dist/vue.esm.js'),
                 '@src': path.resolve(__dirname, '../src'),
                 '@views': path.resolve(__dirname, '../src/views'),
                 '@scss': path.resolve(__dirname, '../src/static/scss'),
@@ -111,6 +111,11 @@ module.exports = (env, mode) => {
             ]
         },
         plugins: [
+            // 告诉 Webpack 使用了哪些动态链接库
+            new webpack.DllReferencePlugin({
+                // 描述 vendor 动态链接库的文件内容
+                manifest: require('../dll/vendor.manifest.json')
+            }),
             new VueLoaderPlugin(),
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, '../src/index.html'),
@@ -127,6 +132,18 @@ module.exports = (env, mode) => {
                 'process.env.CUSTOM_DOMAIN': JSON.stringify(envConfig.domain),
                 'process.env.CUSTOM_ENV': JSON.stringify(envConfig.env),
             }),
+            // 在HtmlWebpackPlugin后使用：用于将vendor插入打包后的页面，并将vendor移动到dist文件夹下面
+            new AddAssetHtmlPlugin([
+                {
+                    // 要添加到编译中的文件的绝对路径
+                    filepath: path.resolve(__dirname, '../dll/vendor.*.dll.js'), // 匹配到带hash的文件
+                    // 文件输出目录：会在dist文件夹下面再生成dll文件夹
+                    outputPath: 'dll',
+                    // 脚本或链接标记的公共路径
+                    publicPath: 'dll',
+                    includeSourcemap: false,
+                }
+            ]),
         ],
     }
 };

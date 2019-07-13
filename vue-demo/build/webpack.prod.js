@@ -18,7 +18,7 @@ module.exports = env => {
     return merge(commonConfig, {
         mode,
         output: {
-            filename: 'js/[name].[contenthash].js', //contenthash 若文件内容无变化，则contenthash 名称不变
+            filename: 'js/[name].[contenthash:8].js', //contenthash 若文件内容无变化，则contenthash 名称不变
             path: path.resolve(__dirname, '../dist')
         },
         optimization: {
@@ -43,12 +43,14 @@ module.exports = env => {
                         priority: 5,
                         reuseExistingChunk: true
                     },
-                    // styles: { // 将多个css文件合并成单一css文件
-                    //     name: 'style',
-                    //     test: /\.(css|less)$/,
-                    //     chunks: 'all',
-                    //     enforce: true // 强制忽略minChunks等设置
-                    // }
+                    styles: { // 将多个css文件合并成单一css文件
+                        name: 'styles',
+                        test: /\.(css|less|scss)$/,
+                        chunks: 'all',
+                        enforce: true, // 强制忽略minChunks等设置
+                        minChunks: 1,
+                        reuseExistingChunk: true,
+                    },
                 }
             },
             // runtimeChunk：提取 manifest，使用script-ext-html-webpack-plugin等插件内联到index.html减少请求
@@ -62,7 +64,7 @@ module.exports = env => {
                 new UglifyJsPlugin({ // 压缩js
                     cache: true,
                     parallel: true,
-                    sourceMap: true
+                    // sourceMap: true
                 }),
                 new OptimizeCSSAssetsPlugin(), // 压缩css，导致webpack4自带的js压缩无效，需添加UglifyJsPlugin
             ],
@@ -95,11 +97,11 @@ module.exports = env => {
             }),
             // 增加css抽取
             new MiniCssExtractPlugin({
-                filename: 'css/[name].[contenthash].css',
+                filename: 'css/[name].[contenthash:8].css',
                 // chunkFilename: 'css/[id].[contenthash].css'
             }),
             // 分析包大小
-            ...( env.STATS ? [new BundleAnalyzerPlugin()] : [])
+            ...(env.STATS ? [new BundleAnalyzerPlugin()] : [])
         ]
     });
 };

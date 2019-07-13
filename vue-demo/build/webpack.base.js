@@ -5,15 +5,19 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin'); // vue-loader 插件
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 生产环境抽离css
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const HappyPack = require('happypack');
+// 构造出共享进程池，进程池中包含5个子进程
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 const getConfig = require('./_config');
 
 module.exports = (env, mode) => {
     const envConfig = getConfig(env, mode);
+    const isDev = envConfig.isDev;
     return {
         performance: { // 控制 webpack 如何通知「资源(asset)和入口起点超过指定文件限制」
             hints: 'warning',
-            maxAssetSize: (envConfig.isDev ? 20 : 1) * 1024 * 1024, // 单文件：bytes
-            maxEntrypointSize: (envConfig.isDev ? 20 : 3) * 1024 * 1024, // 入口所有文件：bytes
+            maxAssetSize: (isDev ? 20 : 1) * 1024 * 1024, // 单文件：bytes
+            maxEntrypointSize: (isDev ? 20 : 3) * 1024 * 1024, // 入口所有文件：bytes
         },
         stats: {
             children: false, // 清理控制台不必要的打印信息
@@ -50,9 +54,9 @@ module.exports = (env, mode) => {
                 },
                 {
                     test: /\.js$/,
-                    use: ['babel-loader'],
-                    exclude: /node_modules/, // 排除不要加载的文件夹
-                    include: path.resolve(__dirname, '../src') // 指定需要加载的文件夹
+                    use: 'happypack/loader?id=babel',
+                    exclude: /node_modules/,
+                    include: path.resolve(__dirname, '../src')
                 },
                 {
                     test: /\.(png|svg|jpg|jpeg|gif)$/,
@@ -72,45 +76,63 @@ module.exports = (env, mode) => {
                 },
                 {
                     test: /\.(scss|css)$/,
+                    // MiniCssExtractPlugin.loader必须要放在webpack的loader配置，而不能放在happyPack进行配置，否则会报错
                     use: [
-                        envConfig.isDev ? 'style-loader' : {
+                        isDev ? 'style-loader' : {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: '../' // 让css中能成功加载到图片
+                                publicPath: '../' // 让css能成功加载到图片
                             }
                         },
-                        'css-loader',
-                        'postcss-loader',
-                        'sass-loader'
+                        'happypack/loader?id=scss'
                     ],
                 },
                 {
                     test: /\.less$/,
                     use: [
-                        envConfig.isDev ? 'style-loader' : {
+                        isDev ? 'style-loader' : {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
                                 publicPath: '../'
                             }
                         },
-                        'css-loader',
-                        {
-                            loader: 'less-loader', // compiles Less to CSS
-                            options: { // ant自定义主题
-                                modifyVars: {
-                                    'primary-color': '#63937d',
-                                    'link-color': '#11b96c',
-                                    'item-hover-bg': '#b5ccc2',
-                                    'item-active-bg': '#dde8e3',
-                                },
-                                javascriptEnabled: true,
-                            },
-                        }
-                    ]
+                        'happypack/loader?id=less'
+                    ],
                 }
             ]
         },
         plugins: [
+            new HappyPack({
+                // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
+                id: 'babel',
+                // 如何处理 .js 文件，用法和 Loader 配置中一样
+                loaders: ['babel-loader'],
+                // 使用共享进程池中的子进程去处理任务
+                threadPool: happyThreadPool,
+            }),
+            new HappyPack({
+                id: 'scss',
+                loaders: ['css-loader', 'postcss-loader', 'sass-loader'],
+                threadPool: happyThreadPool,
+            }),
+            new HappyPack({
+                id: 'less',
+                loaders: ['css-loader', 'postcss-loader', {
+                        loader: 'less-loader', // compiles Less to CSS
+                        options: { // ant自定义主题
+                            modifyVars: {
+                                'primary-color': '#63937d',
+                                'link-color': '#11b96c',
+                                'item-hover-bg': '#b5ccc2',
+                                'item-active-bg': '#dde8e3',
+                            },
+                            javascriptEnabled: true,
+                        },
+                    }
+                ],
+                threadPool: happyThreadPool,
+            }),
+
             // 告诉 Webpack 使用了哪些动态链接库
             new webpack.DllReferencePlugin({
                 // 描述 vendor 动态链接库的文件内容
@@ -124,10 +146,10 @@ module.exports = (env, mode) => {
                 因为和 webpack 4 的兼容性问题，chunksSortMode 参数需要设置为 none
                 https://github.com/jantimon/html-webpack-plugin/issues/870
                 */
-                chunksSortMode: 'none'
+                // chunksSortMode: 'none' // 加了none会导致chunks加载顺序有问题
             }),
             new webpack.DefinePlugin({ // 自定义全局变量
-                'process.env.CUSTOM_ISDEV': JSON.stringify(envConfig.isDev),
+                'process.env.CUSTOM_ISDEV': JSON.stringify(isDev),
                 'process.env.CUSTOM_MODE': JSON.stringify(envConfig.mode),
                 'process.env.CUSTOM_DOMAIN': JSON.stringify(envConfig.domain),
                 'process.env.CUSTOM_ENV': JSON.stringify(envConfig.env),

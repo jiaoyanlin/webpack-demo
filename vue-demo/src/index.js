@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import router from '@src/router';
-import App from '@views/app.vue';
-import store from '@src/store/index';
-import { sync } from 'vuex-router-sync';
 import '@src/plugins';
 import '@scss/index.scss';
+import Vue from 'vue';
+import router from '@src/router/index.js';
+import App from '@views/app.vue';
+import store from '@src/store/index.js';
+import { sync } from 'vuex-router-sync';
 
 if (process.env.CUSTOM_MODE !== 'production') {
     console.log('CUSTOM_ISDEV:', process.env.CUSTOM_ISDEV);

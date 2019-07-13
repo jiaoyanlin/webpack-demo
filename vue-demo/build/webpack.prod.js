@@ -43,14 +43,14 @@ module.exports = env => {
                         priority: 5,
                         reuseExistingChunk: true
                     },
-                    styles: { // 将多个css文件合并成单一css文件
-                        name: 'styles',
-                        test: /\.(css|less|scss)$/,
-                        chunks: 'all',
-                        enforce: true, // 强制忽略minChunks等设置
-                        minChunks: 1,
-                        reuseExistingChunk: true,
-                    },
+                    // styles: { // 将多个css文件合并成单一css文件
+                    //     name: 'styles',
+                    //     test: /\.(css|less|scss)$/,
+                    //     chunks: 'all',
+                    //     enforce: true, // 强制忽略minChunks等设置
+                    //     minChunks: 1,
+                    //     reuseExistingChunk: true,
+                    // },
                 }
             },
             // runtimeChunk：提取 manifest，使用script-ext-html-webpack-plugin等插件内联到index.html减少请求

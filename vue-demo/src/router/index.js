@@ -17,25 +17,25 @@ const menuRoutes = [{
     name: 'html',
     text: 'html基础知识',
     component: () =>
-        import(/* webpackChunkName: "html" */ '@views/htmlView/index.vue'),
+        import(/* webpackChunkName: "sync_html" */ '@views/htmlView/index.vue'),
 }, {
     path: '/css',
     name: 'css',
     text: 'css基础知识',
     component: () =>
-        import(/* webpackChunkName: "css" */ '@views/cssView/index.vue'),
+        import(/* webpackChunkName: "sync_css" */ '@views/cssView/index.vue'),
 }, {
     path: '/js',
     name: 'js',
     text: 'js基础知识',
     component: () =>
-        import(/* webpackChunkName: "js" */ '@views/jsView/index.vue'),
+        import(/* webpackChunkName: "sync_js" */ '@views/jsView/index.vue'),
 }, {
     path: '/frame',
     name: 'frame',
     text: '前端框架',
     component: () =>
-        import(/* webpackChunkName: "frame" */ '@views/frame/index.vue'),
+        import(/* webpackChunkName: "sync_frame" */ '@views/frame/index.vue'),
 }];
 
 const otherRoutes = [

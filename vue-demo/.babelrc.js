@@ -5,7 +5,7 @@ module.exports = {
             {
                 "corejs": 2,
                 "modules": false, // 模块使用 es modules ，不使用 commonJS 规范 
-                "useBuiltIns": 'usage', // 默认 false, 可选 entry , usage
+                "useBuiltIns": 'usage', // 默认 false, 可选 entry , usage；usage表示按需加载
             }
         ]
     ],

@@ -136,7 +136,7 @@ module.exports = (env, mode) => {
             // 告诉 Webpack 使用了哪些动态链接库
             new webpack.DllReferencePlugin({
                 // 描述 vendor 动态链接库的文件内容
-                manifest: require('../dll/vendor.manifest.json')
+                manifest: require(isDev ? '../dll/dev/vendor.manifest.json' : '../dll/pro/vendor.manifest.json')
             }),
             new VueLoaderPlugin(),
             new HtmlWebpackPlugin({
@@ -158,7 +158,7 @@ module.exports = (env, mode) => {
             new AddAssetHtmlPlugin([
                 {
                     // 要添加到编译中的文件的绝对路径
-                    filepath: path.resolve(__dirname, '../dll/vendor.*.dll.js'), // 匹配到带hash的文件
+                    filepath: path.resolve(__dirname, isDev ? '../dll/dev/vendor.*.dll.js' : '../dll/pro/vendor.*.dll.js'), // 匹配到带hash的文件
                     // 文件输出目录：会在dist文件夹下面再生成dll文件夹
                     outputPath: 'dll',
                     // 脚本或链接标记的公共路径

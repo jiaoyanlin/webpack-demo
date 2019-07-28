@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dll": "webpack --progress --config build/webpack.dll.js",
+    "_dll:pro": "webpack --mode production --progress --config build/webpack.dll.js",
+    "_dll:dev": "webpack --mode development --progress --config build/webpack.dll.js",
+    "dll": "npm run _dll:pro && npm run _dll:dev",
     "build:stats": "webpack --progress --env.CUSTOM_ENV=pro --env.STATS --config build/webpack.prod.js --profile --json > stats.json",
     "dev:local": "webpack-dev-server --env.CUSTOM_ENV=local --hot --progress --config build/webpack.dev.js",
     "dev:pre": "webpack-dev-server --env.CUSTOM_ENV=pre --hot --progress --config build/webpack.dev.js",

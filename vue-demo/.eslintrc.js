@@ -14,6 +14,7 @@ module.exports = {
     },
     //代码运行的环境，每个环境都会有一套预定义的全局对象，不同环境可以组合使用
     env: {
+        amd: true, // 否则会出现'require' is not defined 提示
         es6: true,
         browser: true,
         jquery: true
@@ -22,16 +23,15 @@ module.exports = {
     //如果这些全局变量是合规的，可以在globals中配置，避免这些全局变量发出警告
     globals: {
         //配置给全局变量的布尔值，是用来控制该全局变量是否允许被重写
-        test_param: true
+        test_param: true,
+        window: true,
+        process: false,
     },
     //支持第三方插件的规则，插件以eslint-plugin-作为前缀，配置时该前缀可省略
     //检查vue文件需要eslint-plugin-vue插件
     plugins: ["vue"],
     //集成推荐的规则
     extends: ["eslint:recommended", "plugin:vue/essential"],
-    globals: {
-        process: false,
-    },
     //启用额外的规则或者覆盖默认的规则
     //规则级别分别：为"off"(0)关闭、"warn"(1)警告、"error"(2)错误--error触发时，程序退出
     rules: {

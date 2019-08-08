@@ -11,13 +11,31 @@ npm run build // 打包
 
 [TOC]
 
-## vue项目搭建
+- [vue项目搭建](#vue项目搭建)
+  * [初始化项目](#初始化项目)
+  * [引入babel7](#引入babel7)
+  * [引入其他工具及组件库](#引入其他工具及组件库)
+      - [eslint](#eslint)
+      - [vue-router](#vue-router)
+      - [vuex](#vuex)
+      - [antd](#antd)
+  * [优化](#优化)
+      - [根据不同分环境配置参数、设置全局变量、优化打包信息](#根据不同分环境配置参数、设置全局变量、优化打包信息)
+      - [可视化打包工具测试：webpack-bundle-analyzer](#可视化打包工具测试：webpack-bundle-analyzer)
+      - [持久化缓存](#持久化缓存)
+      - [生产环境抽取css并压缩优化及js压缩](#生产环境抽取css并压缩优化及js压缩)
+      - [使用DllPlugin和DllReferencePlugin提升编译速度](#使用DllPlugin和DllReferencePlugin提升编译速度)
+      - [使用happypack多进程加速编译](#使用happypack多进程加速编译)
+      - [其他小调整](#其他小调整)
+  * [学习目录](#学习目录)
+
+# vue项目搭建
 
 > 传送门：相关代码都在[这里](https://github.com/jiaoyanlin/webpack-demo/tree/master/vue-demo)哦！
 
 tips: 当前项目搭建时环境及使用的部分工具版本（版本不同可能导致使用方法不同）：node v11.6.0, npm v6.10.0, webpack: ^4.35.0, webpack-cli: ^3.3.5, 其他请看package.json
 
-### 1、初始化项目:
+## 初始化项目
 
 1.新建vue-demo, cd vue-demo, npm init初始化项目；
 
@@ -229,7 +247,7 @@ module.exports = {
 ```
 现在，执行`npm start`即可体验项目啦~`npm run build`可以打包项目
 
-### 2、引入babel7
+## 引入babel7
 
 > @babel/preset-env 语法装换，配置 polyfill及按需加载；@babel/plugin-transform-runtime复用辅助函数
 
@@ -282,9 +300,9 @@ module.exports = {
 }
 ```
 
-### 3、引入其他工具、组件库
+## 引入其他工具及组件库
 
-##### 1.eslint:
+### eslint:
 
 安装依赖：`npm i babel-eslint eslint eslint-friendly-formatter eslint-loader eslint-plugin-vue -D`
 
@@ -364,7 +382,7 @@ module.exports = {
 
 运行项目，根据eslint提示修改不规范的代码
 
-##### 2.vue-router
+### vue-router
 
 `npm i @babel/plugin-syntax-dynamic-import -D`
 
@@ -597,7 +615,7 @@ img {
 }
 ```
 
-##### 3.vuex
+### vuex
 
 `npm i vuex vuex-router-sync -S`
 
@@ -703,7 +721,7 @@ export default {
 </script>
 ```
 
-##### 4.antd
+### antd
 
 `npm i babel-plugin-import less less-loader -D`
 
@@ -826,9 +844,9 @@ Vue.prototype.$Modal = Modal;
 <a-button type="primary">点击</a-button>
 ```
 
-### 4、优化
+## 优化
 
-##### 1.根据不同分环境配置参数、设置全局变量、优化打包信息：
+### 根据不同分环境配置参数、设置全局变量、优化打包信息
 
 > 开发和生产环境都区分三种接口配置：本地、测试、正式
 
@@ -949,7 +967,7 @@ if (process.env.CUSTOM_MODE !== 'production') {
 
 > 优化打包信息：通过webpack.base.js中config.stats、命令行中的--progress 优化
 
-##### 2.可视化打包工具测试：webpack-bundle-analyzer
+### 可视化打包工具测试：webpack-bundle-analyzer
 
 `npm i webpack-bundle-analyzer -D`
 
@@ -974,7 +992,7 @@ plugins: [
 
 使用：`npm run build:stats`生成stats.json文件，再在项目根目录中执行 webpack-bundle-analyzer 后，浏览器会打开对应网页可以看到相关分析结果
 
-##### 3.持久化缓存
+### 持久化缓存
 
 `npm i script-ext-html-webpack-plugin -D`
 
@@ -1062,7 +1080,7 @@ module.exports = env => {
 
 ```
 
-##### 4.生产环境抽取css并压缩优化，同时需要添加js压缩
+### 生产环境抽取css并压缩优化及js压缩
 
 `npm i mini-css-extract-plugin optimize-css-assets-webpack-plugin uglifyjs-webpack-plugin -D`
 
@@ -1158,7 +1176,7 @@ plugins: [
 ]
 ```
 
-##### 5. 使用DllPlugin、DllReferencePlugin提升编译速度
+### 使用DllPlugin和DllReferencePlugin提升编译速度
 
 `npm i add-asset-html-webpack-plugin -D`
 
@@ -1243,7 +1261,7 @@ plugins: [
 
 > 这里之所以需要区分环境构建不同dll是因为在mode为production时，devtools无法查看vuex数据，尚未找到其他解决方案
 
-##### 6. 使用happypack多进程加速编译
+### 使用happypack多进程加速编译
 
 `npm i happypack -D`
 
@@ -1312,7 +1330,7 @@ plugins: [
 > 这里使用了happypack之后构建速度反而变慢了，原因？？？
 
 
-##### 7. 其他小调整
+### 其他小调整
 
 ```javascript
 // 修改webpack.base.js
@@ -1379,7 +1397,7 @@ resolve: {
 
 
 
-### 学习目录：
+### 学习目录
 
 <font size=3 color=#63937d>webpack相关:</font>
 * [npm详解](https://juejin.im/post/5ab3f77df265da2392364341)

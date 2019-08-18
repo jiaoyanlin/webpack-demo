@@ -2,13 +2,17 @@
 const webpack = require('webpack');
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html
-console.log('---process.env.NODE_ENV', process.env.NODE_ENV, process.env.API_MODE)
+const getConfig = require('./_config')();
 
 function resolve(dir) {
     return path.resolve(__dirname, dir);
 }
 
+console.log('---process.env.NODE_ENV', process.env.NODE_ENV, process.env.API_MODE)
 module.exports = {
+    stats: {
+        children: false, // 清理控制台不必要的打印信息
+    },
     entry: {
         index: resolve('../src/index.js'),
     },
@@ -64,6 +68,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: resolve('../src/template.html'), // html模板
             favicon: resolve('../favicon.png'),
+        }),
+        new webpack.DefinePlugin({ // 自定义全局变量
+            'process.env.CUSTOM_ISDEV': JSON.stringify(getConfig.isDev),
+            'process.env.CUSTOM_MODE': JSON.stringify(getConfig.mode),
+            'process.env.CUSTOM_DOMAIN': JSON.stringify(getConfig.domain),
+            'process.env.CUSTOM_ENV': JSON.stringify(getConfig.env),
         }),
     ],
 };

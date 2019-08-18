@@ -3,19 +3,30 @@ const webpack = require('webpack');
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html
 console.log('---process.env.NODE_ENV', process.env.NODE_ENV, process.env.API_MODE)
+
+function resolve(dir) {
+    return path.resolve(__dirname, dir);
+}
+
 module.exports = {
     entry: {
-        index: path.resolve(__dirname, '../src/index.js'),
+        index: resolve('../src/index.js'),
     },
     resolve: {
         alias: { // 别名
-            '@src': path.resolve(__dirname, '../src'),
-            '@static': path.resolve(__dirname, '../src/static'),
+            '@src': resolve('../src'),
+            '@static': resolve('../src/static'),
         },
         extensions: ['.js'], // 配置扩展名
     },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                use: ['babel-loader'],
+                exclude: /node_modules/, // 排除不要加载的文件夹
+                include: [resolve('../src')] // 指定需要加载的文件夹
+            },
             {
                 test: /\.(scss|css)$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
@@ -40,8 +51,8 @@ module.exports = {
     },
     plugins: [ // 插件
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/template.html'), // html模板
-            favicon: path.resolve(__dirname, '../favicon.png'),
+            template: resolve('../src/template.html'), // html模板
+            favicon: resolve('../favicon.png'),
         }),
     ],
 };

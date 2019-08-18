@@ -1,4 +1,5 @@
 // webpack.dev.js 开发环境配置文件
+const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge'); // 合并配置文件
 const common = require('./webpack.base.js');
@@ -18,4 +19,7 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, '../dist')
     },
     module: {},
+    plugins: [
+        new webpack.NamedModulesPlugin(), // 将文件路径作为 id
+    ]
 });

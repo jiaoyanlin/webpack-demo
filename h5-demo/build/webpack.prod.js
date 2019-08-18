@@ -1,6 +1,7 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清理dist文件夹
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const common = require('./webpack.base.js');
 
 module.exports = merge(common, {
@@ -12,5 +13,7 @@ module.exports = merge(common, {
     module: {},
     plugins: [
         new CleanWebpackPlugin(),
+        // 分析包大小
+        ...(!!process.env.NODE_STATS ? [new BundleAnalyzerPlugin()] : [])
     ],
 });

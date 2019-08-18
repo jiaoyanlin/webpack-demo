@@ -990,7 +990,7 @@ plugins: [
 ...
 ```
 
-使用：`npm run build:stats`生成stats.json文件，再在项目根目录中执行 webpack-bundle-analyzer 后，浏览器会打开对应网页可以看到相关分析结果
+使用：运行`npm run build:stats`自动生成stats.json文件，浏览器会打开对应网页可以看到相关分析结果
 
 ### 持久化缓存
 

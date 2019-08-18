@@ -7,7 +7,8 @@
     "start": "NODE_ENV=development API_MODE=pre webpack-dev-server --hot --progress --config build/webpack.dev.js",
     "dev": "NODE_ENV=development API_MODE=pro webpack-dev-server --hot --progress --config build/webpack.dev.js",
     "build:pre": "NODE_ENV=production API_MODE=pre webpack --progress --config build/webpack.prod.js",
-    "build": "NODE_ENV=production API_MODE=pro webpack --progress --config build/webpack.prod.js"
+    "build": "NODE_ENV=production API_MODE=pro webpack --progress --config build/webpack.prod.js",
+    "build:stats": "NODE_ENV=production API_MODE=pro NODE_STATS=true webpack --progress --config build/webpack.prod.js --profile --json > stats.json"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.2",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.1"

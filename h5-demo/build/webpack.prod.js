@@ -4,6 +4,9 @@ const merge = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清理dist文件夹
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const common = require('./webpack.base.js');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 抽离css
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // css压缩与优化
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const seen = new Set();
 const nameLength = 4;
@@ -24,18 +27,18 @@ module.exports = merge(common, {
                     priority: 10,
                     chunks: 'initial' // 只打包初始时依赖的第三方
                 },
-                antUI: { // UI 组件库
-                    name: 'chunk-ant', // 单独将 ant 拆包
-                    priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
-                    test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/
-                },
-                commons: { // 自定义组件/函数
-                    name: 'chunk-commons',
-                    test: path.resolve(__dirname, '../src/components/components-global'), // 可自定义拓展你的规则，比如注册全局组件的目录
-                    minChunks: 2, // 最小共用次数
-                    priority: 5,
-                    reuseExistingChunk: true
-                },
+                // antUI: { // UI 组件库
+                //     name: 'chunk-ant', // 单独将 ant 拆包
+                //     priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+                //     test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/
+                // },
+                // commons: { // 自定义组件/函数
+                //     name: 'chunk-commons',
+                //     test: path.resolve(__dirname, '../src/components/components-global'), // 可自定义拓展你的规则，比如注册全局组件的目录
+                //     minChunks: 2, // 最小共用次数
+                //     priority: 5,
+                //     reuseExistingChunk: true
+                // },
             }
         },
         // runtimeChunk：提取 manifest，使用script-ext-html-webpack-plugin等插件内联到index.html减少请求
@@ -45,6 +48,14 @@ module.exports = merge(common, {
         * 相当于在plugins中使用new webpack.HashedModuleIdsPlugin()
         */
         moduleIds: 'hashed',
+        minimizer: [
+            new UglifyJsPlugin({ // 压缩js
+                cache: true,
+                parallel: true,
+                // sourceMap: true
+            }),
+            new OptimizeCSSAssetsPlugin(), // 压缩css，导致webpack4自带的js压缩无效，需添加UglifyJsPlugin
+        ],
     },
     module: {},
     plugins: [
@@ -69,6 +80,11 @@ module.exports = merge(common, {
             } else {
                 return modules[0].id;
             }
+        }),
+        // 增加css抽取
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash:8].css',
+            // chunkFilename: 'css/[id].[contenthash:8].css'
         }),
         // 分析包大小
         ...(!!process.env.NODE_STATS ? [new BundleAnalyzerPlugin()] : [])

@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 生产环境抽离css
 const getConfig = require('./_config')();
 
 function resolve(dir) {
@@ -44,7 +45,18 @@ module.exports = {
             },
             {
                 test: /\.(scss|css)$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+                include: [
+                    resolve('../src')
+                ],
+                use: [
+                    getConfig.isDev ? 'style-loader' : {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '../' // 让css能成功加载到图片
+                        }
+                    },
+                    'css-loader', 'postcss-loader', 'sass-loader'
+                ],
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/,

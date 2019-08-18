@@ -23,6 +23,7 @@ module.exports = {
             '@static': resolve('../src/static'),
         },
         extensions: ['.js'], // 配置扩展名
+        modules: [resolve('../node_modules')], // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
     },
     module: {
         rules: [

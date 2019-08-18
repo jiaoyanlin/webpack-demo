@@ -1,0 +1,35 @@
+{
+    "name": "h5-demo",
+    "version": "1.0.0",
+    "description": "webpack h5 demo",
+    "main": "index.js",
+    "scripts": {
+		"start": "NODE_ENV=development API_MODE=pre webpack-dev-server --hot --progress --config build/webpack.dev.js",
+		"dev": "NODE_ENV=development API_MODE=pro webpack-dev-server --hot --progress --config build/webpack.dev.js",
+		"build:pre": "NODE_ENV=production API_MODE=pre webpack --progress --config build/webpack.prod.js",
+		"build": "NODE_ENV=production API_MODE=pro webpack --progress --config build/webpack.prod.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jiaoyanlin/webpack-demo.git"
+    },
+    "keywords": [],
+    "author": "jiaoyanlin",
+    "license": "ISC",
+    "devDependencies": {
+        "autoprefixer": "^9.6.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "css-loader": "^3.2.0",
+        "file-loader": "^4.2.0",
+        "html-webpack-plugin": "^3.2.0",
+        "node-sass": "^4.12.0",
+        "postcss-loader": "^3.0.0",
+        "sass-loader": "^7.2.0",
+        "style-loader": "^1.0.0",
+        "url-loader": "^2.1.0",
+        "webpack": "^4.39.2",
+        "webpack-cli": "^3.3.6",
+        "webpack-dev-server": "^3.8.0",
+        "webpack-merge": "^4.2.1"
+    }
+}

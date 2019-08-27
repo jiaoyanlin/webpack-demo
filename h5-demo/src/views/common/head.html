@@ -1,0 +1,35 @@
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="format-detection" content="telephone=no"/>
+<script>
+	(function(win, doc) {
+		var docEl = doc.documentElement;
+		var refreshRem = function() {
+				var w = docEl.getBoundingClientRect().width || 320;
+				var fontSize = w / 3.75; // 750px设计稿下，root font-size: 100px为基准
+				fontSize = fontSize > 200 ? 200 : fontSize;
+				docEl.style.fontSize = fontSize + "px";
+				win.fontSize = fontSize;
+			},
+			refreshRemId;
+		win.addEventListener(
+			"resize",
+			function() {
+				clearTimeout(refreshRemId);
+				refreshRemId = setTimeout(refreshRem, 100);
+			},
+			false
+		);
+		win.addEventListener(
+			"pageshow",
+			function(e) {
+				if (e.persisted) { // 来自缓存
+					clearTimeout(refreshRemId);
+					refreshRemId = setTimeout(refreshRem, 100);
+				}
+			},
+			false
+		);
+		refreshRem();
+	})(window, document);
+</script>

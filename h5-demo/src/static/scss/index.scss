@@ -2,4 +2,10 @@ body {
     background: #eee;
     transform: rotate(0);
     display: flex;
+    font-size: 28px;
+}
+.block {
+    width: 375px;
+    height: 375px;
+    background: #ddd;
 }

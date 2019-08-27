@@ -20,4 +20,4 @@ const fun = () => {
 fun().then(data => {
     console.log('-----data:', data);
 });
-document.querySelector('#app').innerHTML = 'this is a test' + html;
+document.querySelector('#app').innerHTML = 'this is a test' + html + '<div class="block"></div>';

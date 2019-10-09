@@ -1021,6 +1021,7 @@ module.exports = env => {
         optimization: {
             splitChunks: {
                 chunks: 'all',
+                // maxInitialRequests: 3, // 允许入口并行加载的最大请求数（打包生成的index.hash.js本身也算一个）；默认值为3；
                 cacheGroups: {
                     libs: { // 基础类库:它是构成我们项目必不可少的一些基础类库，比如 vue+vue-router+vuex+axios 这种标准的全家桶，它们的升级频率都不高，但每个页面都需要它们
                         name: 'chunk-libs',
@@ -1033,13 +1034,13 @@ module.exports = env => {
                         priority: 20, // 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
                         test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/
                     },
-                    commons: { // 自定义组件/函数
-                        name: 'chunk-commons',
-                        test: path.resolve(__dirname, '../src/components/components-global'), // 可自定义拓展你的规则，比如注册全局组件的目录
-                        minChunks: 2, // 最小共用次数
-                        priority: 5,
-                        reuseExistingChunk: true
-                    },
+                    // commons: { // 自定义组件/函数
+                    //     name: 'chunk-commons',
+                    //     test: path.resolve(__dirname, '../src/components/components-global'), // 可自定义拓展你的规则，比如注册全局组件的目录
+                    //     minChunks: 2, // 最小共用次数
+                    //     priority: 5,
+                    //     reuseExistingChunk: true
+                    // },
                 }
             },
             // runtimeChunk：提取 manifest，使用script-ext-html-webpack-plugin等插件内联到index.html减少请求

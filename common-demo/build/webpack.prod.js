@@ -20,6 +20,7 @@ module.exports = merge(common, {
     optimization: {
         splitChunks: {
             chunks: 'all',
+            // maxInitialRequests: 3, // 允许入口并行加载的最大请求数（打包生成的index.hash.js本身也算一个）；默认值为3；
             cacheGroups: {
                 libs: { // 基础类库:它是构成我们项目必不可少的一些基础类库，比如 vue+vue-router+vuex+axios 这种标准的全家桶，它们的升级频率都不高，但每个页面都需要它们
                     name: 'chunk-libs',

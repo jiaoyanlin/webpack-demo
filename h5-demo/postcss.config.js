@@ -9,7 +9,7 @@ module.exports = {
                 'Chrome > 40',
             ]
         },
-        // 结合在resize的时候更改body的font-size，实现750px设计稿上xpx可以被转换成375px屏幕下的x/2px
+        // 结合在resize的时候更改html的font-size，实现750px设计稿上xpx可以被转换成375px屏幕下的x/2px
         'postcss-px2rem': {
             remUnit: 200,
         }

@@ -8,7 +8,7 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: { // 开发服务器
-        port: '3030',
+        port: '3031',
         // open: false, // 可以设置是否每次启动都自动打开浏览器页面
         contentBase: '../dist',
         host: '0.0.0.0', // 可通过IP访问，也可以通过localhost访问

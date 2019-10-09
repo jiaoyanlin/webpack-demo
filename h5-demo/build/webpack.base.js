@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 生产环境抽离css
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const getConfig = require('./_config')();
 
 function resolve(dir) {
@@ -15,6 +16,7 @@ module.exports = {
         children: false, // 清理控制台不必要的打印信息
     },
     entry: {
+        // 'vconsole.min': resolve('../src/static/js/vconsole.min.js'),
         index: resolve('../src/index.js'),
     },
     resolve: {
@@ -28,9 +30,14 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.html$/,
+                loader: 'html-loader?interpolate', // html插值
+            },
+            {
                 test: /\.(js|vue)$/,
                 loader: 'eslint-loader',
                 enforce: 'pre',
+                exclude: [resolve('../node_modules'), resolve('../src/static/js')], // 排除不要加载的文件夹
                 // 指定检查的目录
                 include: [resolve('../src')],
                 // eslint检查报告的格式规范
@@ -41,7 +48,8 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: ['babel-loader'],
-                exclude: /node_modules/, // 排除不要加载的文件夹
+                // exclude: /node_modules/, // 排除不要加载的文件夹
+                exclude: [resolve('../node_modules'), resolve('../src/static/js')], // 排除不要加载的文件夹
                 include: [resolve('../src')] // 指定需要加载的文件夹
             },
             {
@@ -82,6 +90,21 @@ module.exports = {
             template: resolve('../src/template.html'), // html模板
             favicon: resolve('../favicon.png'),
         }),
+        // 给测试环境添加vconsole
+        ...(getConfig.env === 'pro' ? [] : [
+            // 在HtmlWebpackPlugin后使用：用于将文件插入打包后的页面，并将文件移动到dist文件夹下面
+            new AddAssetHtmlPlugin([
+                {
+                    // 要添加到编译中的文件的绝对路径
+                    filepath: resolve('../src/static/js/vconsole.min.js'),
+                    // 文件输出目录：会在dist文件夹下面再生成dll文件夹
+                    outputPath: 'js',
+                    // 脚本或链接标记的公共路径
+                    publicPath: 'js',
+                    includeSourcemap: false,
+                }
+            ]),
+        ]),
         new webpack.DefinePlugin({ // 自定义全局变量
             'process.env.CUSTOM_ISDEV': JSON.stringify(getConfig.isDev),
             'process.env.CUSTOM_MODE': JSON.stringify(getConfig.mode),
